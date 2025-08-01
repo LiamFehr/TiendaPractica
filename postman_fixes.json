@@ -1,0 +1,234 @@
+{
+  "info": {
+    "name": "Tienda Virtual - Correcciones",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Productos - Filtros Avanzados",
+      "item": [
+        {
+          "name": "Filtrar por Categoría y Precio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoria\": \"Tecnología\",\n  \"precioMin\": 500,\n  \"precioMax\": 2000,\n  \"nombre\": \"laptop\",\n  \"stockMin\": 5,\n  \"ordenarPor\": \"precio\",\n  \"direccion\": \"asc\",\n  \"pagina\": 0,\n  \"tamanio\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/filtrar",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "filtrar"]
+            }
+          }
+        },
+        {
+          "name": "Filtrar por Rango de Precio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"precioMin\": 100,\n  \"precioMax\": 500,\n  \"ordenarPor\": \"precio\",\n  \"direccion\": \"desc\",\n  \"pagina\": 0,\n  \"tamanio\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/filtrar",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "filtrar"]
+            }
+          }
+        },
+        {
+          "name": "Filtrar por Nombre",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"pro\",\n  \"ordenarPor\": \"nombre\",\n  \"direccion\": \"asc\",\n  \"pagina\": 0,\n  \"tamanio\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/filtrar",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "filtrar"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Productos - Básicos",
+      "item": [
+        {
+          "name": "Buscar por Categoría (Simple)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/categoria-simple/Tecnología",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "categoria-simple", "Tecnología"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Producto",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"iPhone 15 Pro Actualizado\",\n  \"descripcion\": \"iPhone 15 Pro con 256GB, color Titanio\",\n  \"precio\": 1299.99,\n  \"categoria\": \"Tecnología\",\n  \"stock\": 15,\n  \"imagenUrl\": \"https://ejemplo.com/iphone15pro.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "2"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Producto",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/8",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "8"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "Obtener Usuario por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "5"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario Actualizado\",\n  \"email\": \"usuario@ejemplo.com\",\n  \"role\": \"ROLE_USER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "5"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Usuario con Password (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario con Password\",\n  \"email\": \"usuario@ejemplo.com\",\n  \"password\": \"NuevoPassword123!\",\n  \"role\": \"ROLE_USER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "5"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "5"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8082"
+    },
+    {
+      "key": "token",
+      "value": "TU_TOKEN_AQUI"
+    }
+  ]
+} 

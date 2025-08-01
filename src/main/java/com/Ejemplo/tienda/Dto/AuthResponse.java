@@ -1,5 +1,4 @@
 package com.Ejemplo.tienda.Dto;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

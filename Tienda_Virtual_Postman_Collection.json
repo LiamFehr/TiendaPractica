@@ -1,0 +1,322 @@
+{
+  "info": {
+    "name": "Tienda Virtual API",
+    "description": "Colección completa para probar la API de la Tienda Virtual",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+             "key": "baseUrl",
+       "value": "http://localhost:8082",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Autenticación",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@tienda.com\",\n  \"password\": \"Admin123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.token) {",
+                  "        pm.environment.set(\"token\", response.token);",
+                  "        console.log(\"Token guardado automáticamente\");",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Registro de Usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario Test\",\n  \"email\": \"test@ejemplo.com\",\n  \"password\": \"Test123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔍 Diagnóstico",
+      "item": [
+        {
+          "name": "Verificar Estado de Autenticación",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/diagnostic/auth-status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "diagnostic", "auth-status"]
+            }
+          }
+        },
+        {
+          "name": "Test Token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/diagnostic/test-token",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "diagnostic", "test-token"]
+            }
+          }
+        },
+        {
+          "name": "Test Admin Access",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/diagnostic/test-admin",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "diagnostic", "test-admin"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📦 Productos",
+      "item": [
+        {
+          "name": "Obtener Todos los Productos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos"]
+            }
+          }
+        },
+        {
+          "name": "Obtener Producto por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Crear Producto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"MacBook Pro M2\",\n  \"descripcion\": \"Laptop Apple con chip M2, 16GB RAM, 512GB SSD\",\n  \"precio\": 1999.99,\n  \"stock\": 8,\n  \"categoria\": \"Tecnología\",\n  \"imagenUrl\": \"https://ejemplo.com/macbook-pro.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Producto",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"MacBook Pro M2 Actualizado\",\n  \"descripcion\": \"Laptop Apple con chip M2, 16GB RAM, 1TB SSD\",\n  \"precio\": 2199.99,\n  \"stock\": 5,\n  \"categoria\": \"Tecnología\",\n  \"imagenUrl\": \"https://ejemplo.com/macbook-pro-nuevo.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Producto",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔍 Búsquedas",
+      "item": [
+        {
+          "name": "Buscar por Categoría",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/categoria/Tecnología",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "categoria", "Tecnología"]
+            }
+          }
+        },
+        {
+          "name": "Buscar por Nombre",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/buscar?nombre=laptop",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "buscar"],
+              "query": [
+                {
+                  "key": "nombre",
+                  "value": "laptop"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar por Rango de Precio",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/precio?precioMin=50&precioMax=100",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "precio"],
+              "query": [
+                {
+                  "key": "precioMin",
+                  "value": "50"
+                },
+                {
+                  "key": "precioMax",
+                  "value": "100"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Productos con Stock Bajo",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/stock-bajo?limite=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "stock-bajo"],
+              "query": [
+                {
+                  "key": "limite",
+                  "value": "5"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Categorías",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/categorias",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "categorias"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+} 

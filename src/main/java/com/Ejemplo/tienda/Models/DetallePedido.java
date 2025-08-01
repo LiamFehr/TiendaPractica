@@ -1,30 +1,24 @@
 package com.Ejemplo.tienda.Models;
 
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@Data
 public class DetallePedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @JsonIgnoreProperties("detalles")
     private Pedido pedido;
+
 
     @ManyToOne
     @JoinColumn(name = "producto_id")

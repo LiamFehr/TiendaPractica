@@ -31,17 +31,29 @@ public class UsuarioController {
 
     @PostMapping
     public Usuario create(@RequestBody Usuario usuario) {
-        // Codificamos la contraseña antes de guardar
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioService.save(usuario);
     }
 
     @PutMapping("/{id}")
     public Usuario update(@PathVariable Long id, @RequestBody Usuario usuario) {
-        usuario.setId(id);
-        // También codificamos por si cambió la contraseña
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        return usuarioService.save(usuario);
+        // Obtener el usuario existente
+        Optional<Usuario> existingUser = usuarioService.findById(id);
+        if (existingUser.isPresent()) {
+            Usuario existing = existingUser.get();
+            
+            // Actualizar campos
+            existing.setNombre(usuario.getNombre());
+            existing.setEmail(usuario.getEmail());
+            existing.setRole(usuario.getRole());
+            
+            // Solo actualizar password si se proporciona uno nuevo
+            if (usuario.getPassword() != null && !usuario.getPassword().trim().isEmpty()) {
+                existing.setPassword(passwordEncoder.encode(usuario.getPassword()));
+            }
+            
+            return usuarioService.save(existing);
+        }
+        throw new RuntimeException("Usuario no encontrado con ID: " + id);
     }
 
     @DeleteMapping("/{id}")

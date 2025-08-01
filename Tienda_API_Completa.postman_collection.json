@@ -1,0 +1,1221 @@
+{
+	"info": {
+		"_postman_id": "tienda-api-completa",
+		"name": "Tienda API Completa",
+		"description": "API completa de la tienda con autenticación JWT, productos, categorías, carrito, pagos y facturador",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "🔐 Autenticación",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@tienda.com\",\n    \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registro",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Usuario Test\",\n    \"email\": \"test@tienda.com\",\n    \"password\": \"test123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "👤 Usuarios",
+			"item": [
+				{
+					"name": "Obtener Todos los Usuarios",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Usuario por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Usuario",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Admin Actualizado\",\n    \"email\": \"admin@tienda.com\",\n    \"password\": \"nuevaPassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "📦 Productos",
+			"item": [
+				{
+					"name": "Obtener Todos los Productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/productos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Producto por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/productos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Producto (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Nuevo Producto\",\n    \"descripcion\": \"Descripción del nuevo producto\",\n    \"precio\": 99.99,\n    \"stock\": 50,\n    \"categoria\": \"Tecnología\",\n    \"codigoInterno\": \"NUEVO-001\",\n    \"imagenUrl\": \"https://via.placeholder.com/300x200\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/productos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Producto (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Producto Actualizado\",\n    \"descripcion\": \"Descripción actualizada\",\n    \"precio\": 149.99,\n    \"stock\": 75,\n    \"categoria\": \"Tecnología\",\n    \"codigoInterno\": \"ACTUAL-001\",\n    \"imagenUrl\": \"https://via.placeholder.com/300x200\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/productos/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"productos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Producto (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/productos/7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"productos",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filtrar Productos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"laptop\",\n    \"categoria\": \"Tecnología\",\n    \"precioMin\": 0,\n    \"precioMax\": 1000,\n    \"stockMin\": 0,\n    \"ordenarPor\": \"precio\",\n    \"direccion\": \"asc\",\n    \"pagina\": 0,\n    \"tamaño\": 10\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/productos/filtrar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"productos",
+								"filtrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Productos Destacados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/productos/destacados",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"productos",
+								"destacados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Estadísticas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/productos/estadisticas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"productos",
+								"estadisticas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por Categoría Simple",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/productos/categoria-simple/Tecnología",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"productos",
+								"categoria-simple",
+								"Tecnología"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🏷️ Categorías",
+			"item": [
+				{
+					"name": "Obtener Todas las Categorías (Público)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categorias",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categorias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Categorías Activas (Público)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categorias/activas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categorias",
+								"activas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Categoría por ID (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/categorias/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categorias",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Categoría (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Deportes\",\n    \"descripcion\": \"Productos deportivos y fitness\",\n    \"color\": \"#dc3545\",\n    \"orden\": 4\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categorias",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categorias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Categoría (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Tecnología Avanzada\",\n    \"descripcion\": \"Productos tecnológicos de última generación\",\n    \"color\": \"#007bff\",\n    \"orden\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categorias/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categorias",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Categoría (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/categorias/4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categorias",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Categorías (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/categorias/buscar?busqueda=tecnología",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categorias",
+								"buscar"
+							],
+							"query": [
+								{
+									"key": "busqueda",
+									"value": "tecnología"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reordenar Categorías (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[1, 2, 3]"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categorias/reordenar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categorias",
+								"reordenar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🛒 Carrito",
+			"item": [
+				{
+					"name": "Obtener Carrito",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/carrito",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"carrito"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar Producto al Carrito",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/carrito/agregar?productoId=1&cantidad=2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"carrito",
+								"agregar"
+							],
+							"query": [
+								{
+									"key": "productoId",
+									"value": "1"
+								},
+								{
+									"key": "cantidad",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Cantidad en Carrito",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/carrito/actualizar?productoId=1&cantidad=3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"carrito",
+								"actualizar"
+							],
+							"query": [
+								{
+									"key": "productoId",
+									"value": "1"
+								},
+								{
+									"key": "cantidad",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Producto del Carrito",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/carrito/eliminar?productoId=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"carrito",
+								"eliminar"
+							],
+							"query": [
+								{
+									"key": "productoId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Limpiar Carrito",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/carrito/limpiar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"carrito",
+								"limpiar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "💳 Pagos (Mercado Pago)",
+			"item": [
+				{
+					"name": "Crear Pago",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"pedidoId\": 1,\n    \"metodosPago\": [\"credit_card\", \"debit_card\"],\n    \"descripcion\": \"Compra en Tienda Online\",\n    \"urlRetorno\": \"https://mi-tienda.com/success\",\n    \"urlCancelacion\": \"https://mi-tienda.com/cancel\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/pagos/crear",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"pagos",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Estado de Pago",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/pagos/estado/MP-12345678",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"pagos",
+								"estado",
+								"MP-12345678"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Estado de Pago",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"estado\": \"approved\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/pagos/actualizar/MP-12345678",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"pagos",
+								"actualizar",
+								"MP-12345678"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Webhook Mercado Pago",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": {\n        \"id\": \"MP-12345678\"\n    },\n    \"type\": \"payment\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/pagos/webhook",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"pagos",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🧾 Facturador (Admin)",
+			"item": [
+				{
+					"name": "Buscar Producto por Código Interno",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/facturador/producto/LAPTOP-001",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"facturador",
+								"producto",
+								"LAPTOP-001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Productos por Texto",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/facturador/buscar?busqueda=laptop",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"facturador",
+								"buscar"
+							],
+							"query": [
+								{
+									"key": "busqueda",
+									"value": "laptop"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Productos por Categoría",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/facturador/categoria/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"facturador",
+								"categoria",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Productos de Acceso Rápido",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/facturador/acceso-rapido",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"facturador",
+								"acceso-rapido"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "📋 Pedidos",
+			"item": [
+				{
+					"name": "Obtener Todos los Pedidos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/pedidos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Pedido por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/pedidos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"pedidos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Pedido",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuarioId\": 1,\n    \"detalles\": [\n        {\n            \"productoId\": 1,\n            \"cantidad\": 2,\n            \"precioUnitario\": 999.99\n        }\n    ],\n    \"direccionEnvio\": \"Calle Principal 123\",\n    \"telefono\": \"+1234567890\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/pedidos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Estado de Pedido",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"estado\": \"enviado\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/pedidos/1/estado",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"pedidos",
+								"1",
+								"estado"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🔍 Diagnóstico",
+			"item": [
+				{
+					"name": "Verificar Autenticación",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/diagnostico/auth",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"diagnostico",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar Roles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/diagnostico/roles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"diagnostico",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar JWT",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/diagnostico/jwt",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"diagnostico",
+								"jwt"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8083",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+} 

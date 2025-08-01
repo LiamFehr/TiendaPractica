@@ -1,0 +1,670 @@
+{
+  "info": {
+    "name": "Tienda Virtual API - Corregida",
+    "description": "Colección con correcciones para endpoints que fallaban",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8082",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Autenticación",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@tienda.com\",\n  \"password\": \"Admin123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.token) {",
+                  "        pm.environment.set(\"token\", response.token);",
+                  "        console.log(\"Token guardado automáticamente\");",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "📦 Productos - Básicos",
+      "item": [
+        {
+          "name": "Obtener Todos los Productos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos"]
+            }
+          }
+        },
+        {
+          "name": "Obtener Producto por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "2"]
+            }
+          }
+        },
+        {
+          "name": "Crear Producto (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"MacBook Pro M2\",\n  \"descripcion\": \"Laptop Apple con chip M2, 16GB RAM, 512GB SSD\",\n  \"precio\": 1999.99,\n  \"stock\": 8,\n  \"categoria\": \"Tecnología\",\n  \"imagenUrl\": \"https://ejemplo.com/macbook-pro.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Producto (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"iPhone 15 Pro Actualizado\",\n  \"descripcion\": \"Smartphone de última generación con cámara profesional\",\n  \"precio\": 1299.99,\n  \"stock\": 15,\n  \"categoria\": \"Tecnología\",\n  \"imagenUrl\": \"https://ejemplo.com/iphone-15-pro-nuevo.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "2"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Producto (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/8",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "8"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📄 Productos - Paginados",
+      "item": [
+        {
+          "name": "Productos Paginados",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/paginado?pagina=0&tamanio=5&ordenarPor=precio&direccion=desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "paginado"],
+              "query": [
+                {
+                  "key": "pagina",
+                  "value": "0"
+                },
+                {
+                  "key": "tamanio",
+                  "value": "5"
+                },
+                {
+                  "key": "ordenarPor",
+                  "value": "precio"
+                },
+                {
+                  "key": "direccion",
+                  "value": "desc"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Por Categoría Paginado",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/categoria/Tecnología/paginado?pagina=0&tamanio=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "categoria", "Tecnología", "paginado"],
+              "query": [
+                {
+                  "key": "pagina",
+                  "value": "0"
+                },
+                {
+                  "key": "tamanio",
+                  "value": "5"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Por Nombre Paginado",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/buscar/paginado?nombre=laptop&pagina=0&tamanio=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "buscar", "paginado"],
+              "query": [
+                {
+                  "key": "nombre",
+                  "value": "laptop"
+                },
+                {
+                  "key": "pagina",
+                  "value": "0"
+                },
+                {
+                  "key": "tamanio",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Por Precio Paginado",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/precio/paginado?precioMin=100&precioMax=1000&pagina=0&tamanio=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "precio", "paginado"],
+              "query": [
+                {
+                  "key": "precioMin",
+                  "value": "100"
+                },
+                {
+                  "key": "precioMax",
+                  "value": "1000"
+                },
+                {
+                  "key": "pagina",
+                  "value": "0"
+                },
+                {
+                  "key": "tamanio",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Productos Destacados",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/destacados?pagina=0&tamanio=3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "destacados"],
+              "query": [
+                {
+                  "key": "pagina",
+                  "value": "0"
+                },
+                {
+                  "key": "tamanio",
+                  "value": "3"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔍 Productos - Filtros Avanzados",
+      "item": [
+        {
+          "name": "Filtros Avanzados Completo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoria\": \"Tecnología\",\n  \"precioMin\": 500.0,\n  \"precioMax\": 2000.0,\n  \"nombre\": \"laptop\",\n  \"stockMin\": 5,\n  \"ordenarPor\": \"precio\",\n  \"direccion\": \"asc\",\n  \"pagina\": 0,\n  \"tamanio\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/filtrar",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "filtrar"]
+            }
+          }
+        },
+        {
+          "name": "Filtros Solo Categoría",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoria\": \"Tecnología\",\n  \"pagina\": 0,\n  \"tamanio\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/filtrar",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "filtrar"]
+            }
+          }
+        },
+        {
+          "name": "Filtros Solo Precio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"precioMin\": 100.0,\n  \"precioMax\": 500.0,\n  \"ordenarPor\": \"precio\",\n  \"direccion\": \"desc\",\n  \"pagina\": 0,\n  \"tamanio\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/filtrar",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "filtrar"]
+            }
+          }
+        },
+        {
+          "name": "Filtros Solo Nombre",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"pro\",\n  \"ordenarPor\": \"nombre\",\n  \"direccion\": \"asc\",\n  \"pagina\": 0,\n  \"tamanio\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/filtrar",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "filtrar"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📊 Productos - Estadísticas",
+      "item": [
+        {
+          "name": "Estadísticas Generales",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/estadisticas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "estadisticas"]
+            }
+          }
+        },
+        {
+          "name": "Estadísticas por Categoría",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/estadisticas/categoria/Tecnología",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "estadisticas", "categoria", "Tecnología"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔍 Productos - Búsquedas Simples",
+      "item": [
+        {
+          "name": "Buscar por Categoría (Simple)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/categoria-simple/Tecnología",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "categoria-simple", "Tecnología"]
+            }
+          }
+        },
+        {
+          "name": "Buscar por Nombre (Simple)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/buscar-simple?nombre=laptop",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "buscar-simple"],
+              "query": [
+                {
+                  "key": "nombre",
+                  "value": "laptop"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar por Precio (Simple)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/precio-simple?precioMin=100&precioMax=1000",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "precio-simple"],
+              "query": [
+                {
+                  "key": "precioMin",
+                  "value": "100"
+                },
+                {
+                  "key": "precioMax",
+                  "value": "1000"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Productos con Stock Bajo (ADMIN)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/stock-bajo?limite=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "stock-bajo"],
+              "query": [
+                {
+                  "key": "limite",
+                  "value": "5"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Categorías",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/categorias",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "categorias"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "👥 Usuarios",
+      "item": [
+        {
+          "name": "Obtener Todos los Usuarios (ADMIN)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios"]
+            }
+          }
+        },
+        {
+          "name": "Obtener Usuario por ID (ADMIN)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "5"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Usuario (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario Actualizado\",\n  \"email\": \"usuario@ejemplo.com\",\n  \"role\": \"ROLE_USER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "5"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Usuario con Password (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario con Password\",\n  \"email\": \"usuario@ejemplo.com\",\n  \"password\": \"NuevoPassword123!\",\n  \"role\": \"ROLE_USER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "5"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Usuario (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "usuarios", "5"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔍 Diagnóstico",
+      "item": [
+        {
+          "name": "Verificar Estado de Autenticación",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/diagnostic/auth-status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "diagnostic", "auth-status"]
+            }
+          }
+        },
+        {
+          "name": "Test Token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/diagnostic/test-token",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "diagnostic", "test-token"]
+            }
+          }
+        },
+        {
+          "name": "Test Admin Access",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/diagnostic/test-admin",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "diagnostic", "test-admin"]
+            }
+          }
+        },
+        {
+          "name": "Test User Access",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/diagnostic/test-user",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "diagnostic", "test-user"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+} 
